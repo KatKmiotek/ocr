@@ -1,12 +1,16 @@
-import cv2
-import pytesseract
-from PIL import Image
-image = cv2.imread('images/note.png', 0)
-def preprocess(image)
-    #cv2.imread('images/note.png', 0)
-    cv2.rotate(imgage, cv2.ROTATE_90_COUNTERCLOCKWISE)
-    cv2.cvtColor(img_rotated, cv2.COLOR_BGR2GRAY)
-ret, mask = cv2.threshold(img2gray, 180, 255, cv2.THRESH_BINARY)
-image_final = cv2.bitwise_and(img2gray, img2gray, mask=mask)
-ret, new_img = cv2.threshold(image_final, 180, 255, cv2.THRESH_BINARY)
+import cv2 as cv
+import numpy as np
 
+img = cv.imread('hellow.png',0)
+
+
+blur = cv.GaussianBlur(img,(5,5),0)
+ret3,th3 = cv.threshold(blur,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+
+rotated = cv2.rotate(th3, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
+custom_config= r'--oem 3 --psm 6'
+
+original = pytesseract.image_to_string(rotated, config=custom_config)
+
+print (original)
